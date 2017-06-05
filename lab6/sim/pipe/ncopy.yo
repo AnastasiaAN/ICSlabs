@@ -1,0 +1,259 @@
+                      | # name:Luo Anqi
+                      | # ID:515030910431
+                      | ##################################################################
+                      | #Thoughts:
+                      | #1.Implement iaddl
+                      | #2.
+                      | #
+                      | #
+                      | ##################################################################
+                      | #/* $begin ncopy-ys */
+                      | ##################################################################
+                      | # ncopy.ys - Copy a src block of len ints to dst.
+                      | # Return the number of positive ints (>0) contained in src.
+                      | #
+                      | # Include your name and ID here.
+                      | #
+                      | # Describe how and why you modified the baseline code.
+                      | #
+                      | ##################################################################
+                      | # Do not modify this portion
+                      | # Function prologue.
+  0x000: a05f         | ncopy:	pushl %ebp		# Save old frame pointer
+  0x002: 2045         | 	rrmovl %esp,%ebp	# Set up new frame pointer
+  0x004: a06f         | 	pushl %esi		# Save callee-save regs
+  0x006: a03f         | 	pushl %ebx
+  0x008: a07f         | 	pushl %edi
+  0x00a: 503508000000 | 	mrmovl 8(%ebp),%ebx	# src
+  0x010: 502510000000 | 	mrmovl 16(%ebp),%edx	# len
+  0x016: 50150c000000 | 	mrmovl 12(%ebp),%ecx	# dst
+                      | 
+                      | ##################################################################
+                      | # You can modify this portion
+                      | 
+                      | 	# Loop header
+  0x01c: 6300         | 	xorl %eax,%eax		# count = 0;
+  0x01e: 6222         | 	andl %edx,%edx		# len <= 0?
+  0x020: 71b0030000   | 	jle Done		# if so, goto Done:
+  0x025: c0f2f0ffffff | 	iaddl $-16,%edx
+  0x02b: 75c1010000   | 	jge Loop
+  0x030:              | Rest:	
+  0x030: c0f210000000 | 	iaddl $16,%edx
+  0x036: 6022         | 	addl %edx,%edx
+  0x038: 6022         | 	addl %edx,%edx
+  0x03a: 502270030000 | 	mrmovl Table(%edx),%edx
+  0x040: a02f         | 	pushl %edx
+  0x042: 90           | 	ret
+                      | 
+  0x043: 506338000000 | Rest15:	mrmovl 56(%ebx), %esi	# read val from src...
+  0x049: 406138000000 | 	rmmovl %esi, 56(%ecx)	# ...and store it to dst
+  0x04f: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x051: 715c000000   | 	jle Rest14		# if so, goto Rest14:
+  0x056: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x05c: 506334000000 | Rest14:	mrmovl 52(%ebx), %esi	# read val from src...
+  0x062: 406134000000 | 	rmmovl %esi,52(%ecx) # ...and store it to dst
+  0x068: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x06a: 7175000000   | 	jle Rest13		# if so, goto Rest13:
+  0x06f: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x075: 506330000000 | Rest13:	mrmovl 48(%ebx), %esi	# read val from src...
+  0x07b: 406330000000 | 	rmmovl %esi,48(%ebx)	# ...and store it to dst
+  0x081: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x083: 718e000000   | 	jle Rest12		# if so, goto Rest12:
+  0x088: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x08e: 50632c000000 | Rest12:	mrmovl 44(%ebx), %esi	# read val from src...
+  0x094: 40612c000000 | 	rmmovl %esi,44(%ecx) # ...and store it to dst
+  0x09a: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x09c: 71a7000000   | 	jle Rest11		# if so, goto Rest11:
+  0x0a1: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x0a7: 506328000000 | Rest11:	mrmovl 40(%ebx), %esi	# read val from src...
+  0x0ad: 406128000000 | 	rmmovl %esi, 40(%ecx)	# ...and store it to dst
+  0x0b3: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x0b5: 71c0000000   | 	jle Rest10		# if so, goto Rest10:
+  0x0ba: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x0c0: 506324000000 | Rest10:	mrmovl 36(%ebx), %esi	# read val from src...
+  0x0c6: 406124000000 | 	rmmovl %esi,36(%ecx) # ...and store it to dst
+  0x0cc: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x0ce: 71d9000000   | 	jle Rest9		# if so, goto Rest9:
+  0x0d3: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x0d9: 506320000000 | Rest9:	mrmovl 32(%ebx), %esi	# read val from src...
+  0x0df: 406120000000 | 	rmmovl %esi, 32(%ecx)	# ...and store it to dst
+  0x0e5: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x0e7: 71f2000000   | 	jle Rest8		# if so, goto Rest8:
+  0x0ec: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x0f2: 50631c000000 | Rest8:	mrmovl 28(%ebx), %esi	# read val from src...
+  0x0f8: 40611c000000 | 	rmmovl %esi,28(%ecx) # ...and store it to dst
+  0x0fe: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x100: 710b010000   | 	jle Rest7		# if so, goto Rest7:
+  0x105: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x10b: 506318000000 | Rest7:	mrmovl 24(%ebx), %esi	# read val from src...
+  0x111: 406118000000 | 	rmmovl %esi, 24(%ecx)	# ...and store it to dst
+  0x117: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x119: 7124010000   | 	jle Rest6		# if so, goto Rest6:
+  0x11e: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x124: 506314000000 | Rest6:	mrmovl 20(%ebx), %esi	# read val from src...
+  0x12a: 406114000000 | 	rmmovl %esi,20(%ecx) # ...and store it to dst
+  0x130: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x132: 713d010000   | 	jle Rest5		# if so, goto Rest5:
+  0x137: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x13d: 506310000000 | Rest5:	mrmovl 16(%ebx), %esi	# read val from src...
+  0x143: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x145: 406110000000 | 	rmmovl %esi, 16(%ecx)	# ...and store it to dst
+  0x14b: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x14d: 7158010000   | 	jle Rest4		# if so, goto Rest4
+  0x152: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x158: 50630c000000 | Rest4:	mrmovl 12(%ebx), %esi	# read val from src...
+  0x15e: 40610c000000 | 	rmmovl %esi,12(%ecx) # ...and store it to dst
+  0x164: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x166: 7171010000   | 	jle Rest3		# if so, goto Rest3:
+  0x16b: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x171: 506308000000 | Rest3:	mrmovl 8(%ebx), %esi	# read val from src...
+  0x177: 406108000000 | 	rmmovl %esi, 8(%ecx)	# ...and store it to dst
+  0x17d: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x17f: 718a010000   | 	jle Rest2		# if so, goto Rest2:
+  0x184: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x18a: 506304000000 | Rest2:	mrmovl 4(%ebx), %esi	# read val from src...
+  0x190: 406104000000 | 	rmmovl %esi,4(%ecx) # ...and store it to dst
+  0x196: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x198: 71a3010000   | 	jle Rest1		# if so, goto Rest1:
+  0x19d: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x1a3: 506300000000 | Rest1:	mrmovl (%ebx), %esi	# read val from src...
+  0x1a9: 406100000000 | 	rmmovl %esi, (%ecx)	# ...and store it to dst
+  0x1af: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x1b1: 71b0030000   | 	jle Done		# if so, goto Done:
+  0x1b6: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x1bc: 70b0030000   | 	jmp Done
+                      | 
+  0x1c1: 506300000000 | Loop:	mrmovl (%ebx), %esi	# read val from src...
+  0x1c7: 406100000000 | 	rmmovl %esi, (%ecx)	# ...and store it to dst
+  0x1cd: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x1cf: 71da010000   | 	jle Npos1		# if so, goto Npos1:
+  0x1d4: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x1da:              | Npos1:
+  0x1da: 506304000000 | 	mrmovl 4(%ebx), %esi	# read val from src...
+  0x1e0: 406104000000 | 	rmmovl %esi, 4(%ecx)	# ...and store it to dst
+  0x1e6: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x1e8: 71f3010000   | 	jle Npos2		# if so, goto Npos2:
+  0x1ed: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x1f3:              | Npos2:
+  0x1f3: 506308000000 | 	mrmovl 8(%ebx), %esi	# read val from src...
+  0x1f9: 406108000000 | 	rmmovl %esi, 8(%ecx)	# ...and store it to dst
+  0x1ff: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x201: 710c020000   | 	jle Npos3		# if so, goto Npos3:
+  0x206: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x20c:              | Npos3:
+  0x20c: 50630c000000 | 	mrmovl 12(%ebx), %esi	# read val from src...
+  0x212: 40610c000000 | 	rmmovl %esi, 12(%ecx)	# ...and store it to dst
+  0x218: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x21a: 7125020000   | 	jle Npos4		# if so, goto Npos4:
+  0x21f: c0f001000000 | 	iaddl $1,%eax		# count++
+  0x225:              | Npos4:
+  0x225: 506310000000 | 	mrmovl 16(%ebx), %esi	# read val from src...
+  0x22b: 406110000000 | 	rmmovl %esi, 16(%ecx)	# ...and store it to dst
+  0x231: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x233: 713e020000   | 	jle Npos5		# if so, goto Npos5:
+  0x238: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x23e:              | Npos5:
+  0x23e: 506314000000 | 	mrmovl 20(%ebx), %esi	# read val from src...
+  0x244: 406114000000 | 	rmmovl %esi, 20(%ecx)	# ...and store it to dst
+  0x24a: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x24c: 7157020000   | 	jle Npos6		# if so, goto Npos6:
+  0x251: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x257:              | Npos6:
+  0x257: 506318000000 | 	mrmovl 24(%ebx), %esi	# read val from src...
+  0x25d: 406118000000 | 	rmmovl %esi, 24(%ecx)	# ...and store it to dst
+  0x263: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x265: 7170020000   | 	jle Npos7		# if so, goto Npos7:
+  0x26a: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x270:              | Npos7:
+  0x270: 50631c000000 | 	mrmovl 28(%ebx), %esi	# read val from src...
+  0x276: 40611c000000 | 	rmmovl %esi, 28(%ecx)	# ...and store it to dst
+  0x27c: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x27e: 7189020000   | 	jle Npos8		# if so, goto Npos8:
+  0x283: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x289: 506320000000 | Npos8:	mrmovl 32(%ebx), %esi	# read val from src...
+  0x28f: 406120000000 | 	rmmovl %esi, 32(%ecx)	# ...and store it to dst
+  0x295: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x297: 71a2020000   | 	jle Npos9		# if so, goto Npos9:
+  0x29c: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x2a2:              | Npos9:
+  0x2a2: 506324000000 | 	mrmovl 36(%ebx), %esi	# read val from src...
+  0x2a8: 406124000000 | 	rmmovl %esi, 36(%ecx)	# ...and store it to dst
+  0x2ae: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x2b0: 71bb020000   | 	jle Npos10		# if so, goto Npos10:
+  0x2b5: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x2bb:              | Npos10:
+  0x2bb: 506328000000 | 	mrmovl 40(%ebx), %esi	# read val from src...
+  0x2c1: 406128000000 | 	rmmovl %esi, 40(%ecx)	# ...and store it to dst
+  0x2c7: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x2c9: 71d4020000   | 	jle Npos11		# if so, goto Npos11:
+  0x2ce: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x2d4:              | Npos11:
+  0x2d4: 50632c000000 | 	mrmovl 44(%ebx), %esi	# read val from src...
+  0x2da: 40612c000000 | 	rmmovl %esi, 44(%ecx)	# ...and store it to dst
+  0x2e0: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x2e2: 71ed020000   | 	jle Npos12		# if so, goto Npos12:
+  0x2e7: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x2ed:              | Npos12:
+  0x2ed: 506330000000 | 	mrmovl 48(%ebx), %esi	# read val from src...
+  0x2f3: 406130000000 | 	rmmovl %esi, 48(%ecx)	# ...and store it to dst
+  0x2f9: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x2fb: 7106030000   | 	jle Npos13		# if so, goto Npos13:
+  0x300: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x306:              | Npos13:
+  0x306: 506334000000 | 	mrmovl 52(%ebx), %esi	# read val from src...
+  0x30c: 406134000000 | 	rmmovl %esi, 52(%ecx)	# ...and store it to dst
+  0x312: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x314: 711f030000   | 	jle Npos14		# if so, goto Npos14:
+  0x319: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x31f:              | Npos14:
+  0x31f: 506338000000 | 	mrmovl 56(%ebx), %esi	# read val from src...
+  0x325: 406138000000 | 	rmmovl %esi, 56(%ecx)	# ...and store it to dst
+  0x32b: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x32d: 7138030000   | 	jle Npos15		# if so, goto Npos15:
+  0x332: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x338:              | Npos15:
+  0x338: 50633c000000 | 	mrmovl 60(%ebx), %esi	# read val from src...
+  0x33e: 40613c000000 | 	rmmovl %esi, 60(%ecx)	# ...and store it to dst
+  0x344: 6266         | 	andl %esi, %esi		# val <= 0?
+  0x346: 7151030000   | 	jle Judge		# if so, goto Judge:
+  0x34b: c0f001000000 | 	iaddl $1, %eax		# count++
+  0x351:              | Judge:	
+  0x351: c0f340000000 | 	iaddl $64,%ebx
+  0x357: c0f140000000 | 	iaddl $64,%ecx
+  0x35d: c0f2f0ffffff | 	iaddl $-16,%edx
+  0x363: 75c1010000   | 	jge Loop
+  0x368: 7030000000   | 	jmp Rest
+                      | 
+                      | #Jump Table
+  0x370:              | .align 4
+  0x370: b0030000     | Table:	.long Done
+  0x374: a3010000     | 	.long Rest1
+  0x378: 8a010000     | 	.long Rest2
+  0x37c: 71010000     | 	.long Rest3
+  0x380: 58010000     | 	.long Rest4
+  0x384: 3d010000     | 	.long Rest5
+  0x388: 24010000     | 	.long Rest6
+  0x38c: 0b010000     | 	.long Rest7
+  0x390: f2000000     | 	.long Rest8
+  0x394: d9000000     | 	.long Rest9
+  0x398: c0000000     | 	.long Rest10
+  0x39c: a7000000     | 	.long Rest11
+  0x3a0: 8e000000     | 	.long Rest12
+  0x3a4: 75000000     | 	.long Rest13
+  0x3a8: 5c000000     | 	.long Rest14
+  0x3ac: 43000000     | 	.long Rest15
+                      | 
+                      | ##################################################################
+                      | # Do not modify the following section of code
+                      | # Function epilogue.
+  0x3b0:              | Done:
+  0x3b0: b07f         | 	popl %edi               # Restore callee-save registers
+  0x3b2: b03f         | 	popl %ebx
+  0x3b4: b06f         | 	popl %esi
+  0x3b6: 2054         | 	rrmovl %ebp, %esp
+  0x3b8: b05f         | 	popl %ebp
+  0x3ba: 90           | 	ret
+                      | ##################################################################
+                      | # Keep the following label at the end of your function
+  0x3bb:              | End:
+                      | #/* $end ncopy-ys */
