@@ -1,0 +1,16 @@
+User-agent: *
+Disallow: /courses/
+Disallow: /wiki/
+HTTP/1.1 400 Bad Request
+Server: nginx/1.6.2
+Date: Mon, 17 Apr 2017 14:37:43 GMT
+Content-Type: text/html
+Connection: close
+
+<html>
+<head><title>400 Bad Request</title></head>
+<body bgcolor="white">
+<center><h1>400 Bad Request</h1></center>
+<hr><center>nginx/1.6.2</center>
+</body>
+</html>
